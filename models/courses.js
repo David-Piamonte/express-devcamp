@@ -14,11 +14,72 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   courses.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    weeks: DataTypes.INTEGER,
-    enroll_cost: DataTypes.FLOAT,
-    minimum_skill: DataTypes.STRING
+    title:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        notNull: {
+          args: true,
+          msg: 'title debe estar presente'
+        },
+        notEmpty:  {
+          args: true,
+          msg: 'title no debe ser vacio'
+        },
+      }
+    },
+    description:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        notNull: {
+          args: true,
+          msg: 'description debe estar presente'
+        },
+        notEmpty:  {
+          args: true,
+          msg: 'description no debe ser vacio'
+        },
+      }
+    },
+    weeks:{
+      type: DataTypes.INTEGER,
+      validate:{
+        len:{
+          args:[1],
+          msg:"debe contener solo un numero"
+        }
+      }
+    }, 
+    enroll_cost:
+    {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      validate:{
+        notNull: {
+          args: true,
+          msg: 'enroll const debe estar presente'
+        },
+        notEmpty:  {
+          args: true,
+          msg: 'enroll cost no debe ser vacio'
+        },
+      }
+    },
+    minimum_skill:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        notNull: {
+          args: true,
+          msg: 'minimum skill debe estar presente'
+        },
+        notEmpty:  {
+          args: true,
+          msg: 'minimun skill no debe ser vacio'
+        },
+      }
+    } 
   }, {
     sequelize,
     modelName: 'courses',

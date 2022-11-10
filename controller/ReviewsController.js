@@ -4,24 +4,23 @@ const sequelize = require('../config/seq')
 //Datatypes de sequelize
 const { DataTypes, ValidationError } = require('sequelize')
 //el modelo
-const UserModel = require('../models/user')
+const ReviewsModel = require('../models/Reviews')
 
 
 //crear la entidad: 
-const User = UserModel(sequelize, DataTypes)
+const Reviews = ReviewsModel(sequelize, DataTypes)
 
-
-// Listar todos los user 
-exports.getAllUser = async (req, res)=>{
+// Listar todos los reviews 
+exports.getAllReviews = async (req, res)=>{
     try{ 
     //traer los usuarios
-    const users = await User.findAll();
+    const Review = await Reviews.findAll();
     //response con los datos
     res
         .status(200)
         .json({
             "success": true,
-            "data": users
+            "data": Review
         })
     }catch (error) {
         res 
@@ -33,23 +32,23 @@ exports.getAllUser = async (req, res)=>{
     }
 }
 // Listar user por id 
-exports.getSingleUser = async (req, res)=>{
+exports.getSingleReviews = async (req, res)=>{
     try {
         //console.log (req.params.id)
-    const SingleUser = await User.findByPk(req.params.id);
-    if (SingleUser) {
+    const SingleReviews = await Reviews.findByPk(req.params.id);
+    if (SingleReviews) {
         res
             .status(200)
             .json({
                 "success": true,
-                "data": SingleUser
+                "data": SingleReviews
             })
     } else {
         res
             .status(200)
             .json({
                 "success": false,
-                "data": "usuario no existe"
+                "data": "reviews no existe"
             })
     }
     } catch (error) {
@@ -62,35 +61,33 @@ exports.getSingleUser = async (req, res)=>{
     }
     
 }
-
-
-//Actualizar el user 
-exports.updateUser = async (req, res)=>{
+//Actualizar el Reviews 
+exports.updateReviews = async (req, res)=>{
     try {
         //console.log(req.params.id)
-        const SingleUser = await User.findByPk(req.params.id);
-        if (!SingleUser) {
+        const SingleReviews = await Reviews.findByPk(req.params.id);
+        if (!SingleReviews) {
             res
             .status(200)
             .json({
                 "success": false,
-                "data": "usuario no existe"
+                "data": "Reviews no existe"
             })
         } else {
             // Change everyone without a last name to "Doe"
-            //actualizar usuario
-            await User.update(req.body, {
+            //actualizar Reviews
+            await Reviews.update(req.body, {
                 where: {
                     id: req.params.id
             }})
             //selecciono user actualizado
-            const updatedUser = await User.findByPk(req.params.id);
+            const updatedReviews = await Reviews.findByPk(req.params.id);
             //enviar  respuesta
             res
                 .status(200)
                 .json({
                     "success": true,
-                    "data": updatedUser
+                    "data": updatedReviews
                 })
         }
          
@@ -105,22 +102,21 @@ exports.updateUser = async (req, res)=>{
    
   
 }
-
-//Borrar users 
-exports.deleteUser = async (req, res)=>{
+//Borrar Reviews
+exports.deleteReviews = async (req, res)=>{
     //console.log(req.params.id)
-    const SingleUser = await User.findByPk(req.params.id);
+    const SingleReviews = await Reviews.findByPk(req.params.id);
     try {
-        const singleUser = await User.findByPk(req.params.id);
-        if (!singleUser) {
+        const singleReviews = await Reviews.findByPk(req.params.id);
+        if (!singleReviews) {
             res
                 .status(200)
                 .json({
                     "success": false,
-                    "errors": "Usuario no existente"
+                    "errors": "Reviews no existente"
                 })
         } else {
-            await User.destroy({
+            await Reviews.destroy({
                 where: {
                 id: req.params.id
                 }
@@ -129,7 +125,7 @@ exports.deleteUser = async (req, res)=>{
                 .status(200)
                 .json({
                     "success": true,
-                    "data": singleUser
+                    "data": singleReviews
                 })
         }
     } catch (error) {
@@ -142,17 +138,15 @@ exports.deleteUser = async (req, res)=>{
     }
     
 }
-
-
-// Crear nuevo user 
-exports.createUser = async (req, res)=>{
+// Crear nuevo Reviews 
+exports.createReviews = async (req, res)=>{
     try {
-        const newUser = await User.create(req.body);
+        const newReviews = await Reviews.create(req.body);
         res 
             .status(200)
             .json({
                 "success": true,
-                "data": newUser
+                "data": newReviews
             })
 
     } catch (error) {
